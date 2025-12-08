@@ -8,7 +8,7 @@ fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();
     //设定线程池，避免多用户访问时占用完所有资源
     let pool = ThreadPool::new(4);
-    for stream in listener.incoming(){
+    for stream in listener.incoming().take(2){
         //incoming返回一个迭代器,元素类型是 Result<TcpStream,std::io::Error>，即可能失败，也可能成功的连接
         let stream = stream.unwrap();
         pool.excute(||{
